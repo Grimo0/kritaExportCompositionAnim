@@ -20,7 +20,7 @@ class ExportLayerAnim(Extension):
         # Jpg save info
         self.jpgInfo = InfoObject()
         self.jpgInfo.setProperty('quality', 85)           # 0 (high compression/low quality) to 100 (low compression/higher quality)
-        self.jpgInfo.setProperty('smoothing', 0)         # 0 to 100    
+        self.jpgInfo.setProperty('smoothing', 0)          # 0 to 100    
         self.jpgInfo.setProperty('subsampling', 0)        # 0=4:2:0 (smallest file size)   1=4:2:2    2=4:4:0     3=4:4:4 (Best quality)
         self.jpgInfo.setProperty('progressive', False)
         self.jpgInfo.setProperty('optimize', True)
@@ -155,6 +155,7 @@ class ExportLayerAnim(Extension):
             animatedLayers = []
             for node in topLevelLayers:
                 if (node.type() != "paintlayer"
+                    and node.type() != "clonelayer"
                     and node.type() != "grouplayer"
                     and node.type() != "filelayer"
                     and node.type() != "vectorlayer"):
@@ -182,7 +183,6 @@ class ExportLayerAnim(Extension):
                             self.exportLayer(layer['node'], compo, "_" + str(layer['frame']))
                             layer['frame'] = layer['frame'] + 1
 
-        
         # Undo the setCurrentTime
         if haveAnimatedLayers and self.doc.animationLength() > 0:
             Application.action('edit_undo').trigger()
